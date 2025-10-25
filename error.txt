@@ -1,0 +1,107 @@
+(.venv) c² ~/strands-fun-tools/ [main+] pip3 install -e '.[all]' 
+Obtaining file:///Users/cagatay/strands-fun-tools
+  Installing build dependencies ... done
+  Checking if build backend supports build_editable ... done
+  Getting requirements to build editable ... done
+  Preparing editable metadata (pyproject.toml) ... done
+Requirement already satisfied: strands-agents in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (1.13.0)
+Requirement already satisfied: pyautogui in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (0.9.54)
+Requirement already satisfied: pyperclip in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (1.11.0)
+Requirement already satisfied: pillow in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (12.0.0)
+Requirement already satisfied: stockfish in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (3.28.0)
+Requirement already satisfied: rich in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (14.2.0)
+Requirement already satisfied: opencv-python in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (4.12.0.88)
+Requirement already satisfied: boto3 in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (1.40.59)
+Requirement already satisfied: halo in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (0.0.31)
+Requirement already satisfied: colorama in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (0.4.6)
+Requirement already satisfied: jinja2 in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (3.1.6)
+Requirement already satisfied: pyyaml in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (6.0.3)
+Requirement already satisfied: cryptography in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (46.0.3)
+Collecting pytesseract (from strands-fun-tools==0.1.0)
+  Using cached pytesseract-0.3.13-py3-none-any.whl.metadata (11 kB)
+Collecting bleak (from strands-fun-tools==0.1.0)
+  Using cached bleak-1.1.1-py3-none-any.whl.metadata (5.1 kB)
+Collecting pywifi (from strands-fun-tools==0.1.0)
+  Using cached pywifi-1.1.12-py3-none-any.whl.metadata (2.7 kB)
+Collecting openai-whisper (from strands-fun-tools==0.1.0)
+  Using cached openai_whisper-20250625.tar.gz (803 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting sounddevice (from strands-fun-tools==0.1.0)
+  Using cached sounddevice-0.5.3-py3-none-macosx_10_6_x86_64.macosx_10_6_universal2.whl.metadata (1.6 kB)
+Collecting webrtcvad (from strands-fun-tools==0.1.0)
+  Using cached webrtcvad-2.0.10.tar.gz (66 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Requirement already satisfied: ultralytics in ./.venv/lib/python3.14/site-packages (from strands-fun-tools==0.1.0) (8.3.221)
+Collecting prompt_toolkit (from strands-fun-tools==0.1.0)
+  Using cached prompt_toolkit-3.0.52-py3-none-any.whl.metadata (6.4 kB)
+Requirement already satisfied: pyobjc-core>=10.3 in ./.venv/lib/python3.14/site-packages (from bleak->strands-fun-tools==0.1.0) (12.0)
+Collecting pyobjc-framework-CoreBluetooth>=10.3 (from bleak->strands-fun-tools==0.1.0)
+  Using cached pyobjc_framework_corebluetooth-12.0-cp314-cp314-macosx_10_15_universal2.whl.metadata (2.6 kB)
+Collecting pyobjc-framework-libdispatch>=10.3 (from bleak->strands-fun-tools==0.1.0)
+  Using cached pyobjc_framework_libdispatch-12.0-cp314-cp314-macosx_10_15_universal2.whl.metadata (2.5 kB)
+Requirement already satisfied: pyobjc-framework-Cocoa>=12.0 in ./.venv/lib/python3.14/site-packages (from pyobjc-framework-CoreBluetooth>=10.3->bleak->strands-fun-tools==0.1.0) (12.0)
+Requirement already satisfied: botocore<1.41.0,>=1.40.59 in ./.venv/lib/python3.14/site-packages (from boto3->strands-fun-tools==0.1.0) (1.40.59)
+Requirement already satisfied: jmespath<2.0.0,>=0.7.1 in ./.venv/lib/python3.14/site-packages (from boto3->strands-fun-tools==0.1.0) (1.0.1)
+Requirement already satisfied: s3transfer<0.15.0,>=0.14.0 in ./.venv/lib/python3.14/site-packages (from boto3->strands-fun-tools==0.1.0) (0.14.0)
+Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in ./.venv/lib/python3.14/site-packages (from botocore<1.41.0,>=1.40.59->boto3->strands-fun-tools==0.1.0) (2.9.0.post0)
+Requirement already satisfied: urllib3!=2.2.0,<3,>=1.25.4 in ./.venv/lib/python3.14/site-packages (from botocore<1.41.0,>=1.40.59->boto3->strands-fun-tools==0.1.0) (2.5.0)
+Requirement already satisfied: six>=1.5 in ./.venv/lib/python3.14/site-packages (from python-dateutil<3.0.0,>=2.1->botocore<1.41.0,>=1.40.59->boto3->strands-fun-tools==0.1.0) (1.17.0)
+Requirement already satisfied: cffi>=2.0.0 in ./.venv/lib/python3.14/site-packages (from cryptography->strands-fun-tools==0.1.0) (2.0.0)
+Requirement already satisfied: pycparser in ./.venv/lib/python3.14/site-packages (from cffi>=2.0.0->cryptography->strands-fun-tools==0.1.0) (2.23)
+Requirement already satisfied: log_symbols>=0.0.14 in ./.venv/lib/python3.14/site-packages (from halo->strands-fun-tools==0.1.0) (0.0.14)
+Requirement already satisfied: spinners>=0.0.24 in ./.venv/lib/python3.14/site-packages (from halo->strands-fun-tools==0.1.0) (0.0.24)
+Requirement already satisfied: termcolor>=1.1.0 in ./.venv/lib/python3.14/site-packages (from halo->strands-fun-tools==0.1.0) (3.2.0)
+Requirement already satisfied: MarkupSafe>=2.0 in ./.venv/lib/python3.14/site-packages (from jinja2->strands-fun-tools==0.1.0) (3.0.3)
+Collecting more-itertools (from openai-whisper->strands-fun-tools==0.1.0)
+  Using cached more_itertools-10.8.0-py3-none-any.whl.metadata (39 kB)
+Collecting numba (from openai-whisper->strands-fun-tools==0.1.0)
+  Using cached numba-0.62.1.tar.gz (2.7 MB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... error
+  error: subprocess-exited-with-error
+  
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [24 lines of output]
+      Traceback (most recent call last):
+        File "/Users/cagatay/strands-fun-tools/.venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+          main()
+          ~~~~^^
+        File "/Users/cagatay/strands-fun-tools/.venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+          json_out["return_val"] = hook(**hook_input["kwargs"])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/Users/cagatay/strands-fun-tools/.venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
+          return hook(config_settings)
+        File "/private/var/folders/nt/_7cw350j3732__h0xtsnjmtm0000gq/T/pip-build-env-04io2n4k/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 331, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/private/var/folders/nt/_7cw350j3732__h0xtsnjmtm0000gq/T/pip-build-env-04io2n4k/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+          self.run_setup()
+          ~~~~~~~~~~~~~~^^
+        File "/private/var/folders/nt/_7cw350j3732__h0xtsnjmtm0000gq/T/pip-build-env-04io2n4k/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 512, in run_setup
+          super().run_setup(setup_script=setup_script)
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/private/var/folders/nt/_7cw350j3732__h0xtsnjmtm0000gq/T/pip-build-env-04io2n4k/overlay/lib/python3.14/site-packages/setuptools/build_meta.py", line 317, in run_setup
+          exec(code, locals())
+          ~~~~^^^^^^^^^^^^^^^^
+        File "<string>", line 51, in <module>
+        File "<string>", line 48, in _guard_py_ver
+      RuntimeError: Cannot install on Python version 3.14.0; only versions >=3.10,<3.14 are supported.
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 25.2 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+error: subprocess-exited-with-error
+
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+(.venv) c² ~/strands-fun-tools/ [main+] 

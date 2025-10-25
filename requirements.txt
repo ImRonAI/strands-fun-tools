@@ -1,0 +1,44 @@
+# Core dependencies
+strands-agents
+pyautogui
+pyperclip
+pillow
+
+# Optional dependencies (install as needed)
+# pip install strands-fun-tools[all]  # Install everything
+# pip install strands-fun-tools[chess]  # Just chess tools
+# pip install strands-fun-tools[vision]  # Just vision tools
+
+# Chess
+# stockfish
+# rich
+
+# Vision & Camera
+# opencv-python
+# ultralytics
+# pytesseract
+
+# Bluetooth & WiFi
+# bleak
+# pywifi
+
+# Audio
+# openai-whisper
+# sounddevice
+# webrtcvad
+
+# Display
+# rich
+# halo
+# colorama
+
+# Templates
+# jinja2
+
+# Utilities
+# pyyaml
+# cryptography
+# boto3
+
+# Dialog
+# prompt_toolkit

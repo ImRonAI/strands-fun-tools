@@ -1,0 +1,7 @@
+.venv
+sessions
+repl_state
+__pycache__
+.*_monitor/
+*.bak
+*.egg-info
