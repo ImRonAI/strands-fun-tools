@@ -10,7 +10,6 @@
 ## ✨ Features
 
 - **🔵 Bluetooth Monitoring** - Background device scanning, proximity detection, GATT operations
-- **📡 WiFi Scanning** - Network discovery, signal mapping, channel analysis  
 - **♟️ Chess Engine** - Stockfish integration for playing and analyzing chess
 - **📋 Clipboard Management** - Monitor and control system clipboard with history
 - **🖱️ Cursor Control** - Mouse automation with PyAutoGUI
@@ -52,9 +51,6 @@ pip install "strands-fun-tools[vision]"
 
 # Bluetooth
 pip install "strands-fun-tools[bluetooth]"
-
-# WiFi
-pip install "strands-fun-tools[wifi]"
 
 # Audio transcription
 pip install "strands-fun-tools[audio]"
@@ -141,31 +137,6 @@ agent.tool.bluetooth(action="read_characteristic", address="...", characteristic
 - GATT read/write/subscribe operations
 - Device discovery logging
 - RSSI-based proximity zones
-
----
-
-#### **wifi** - WiFi Network Monitoring *(macOS native)*
-
-```python
-# Start background scanning
-agent.tool.wifi(action="start", scan_interval=10)
-
-# Scan once
-agent.tool.wifi(action="scan_once")
-
-# Get current network
-agent.tool.wifi(action="get_current")
-
-# Analyze channel usage
-agent.tool.wifi(action="get_channel_usage")
-```
-
-**Features:**
-- Background WiFi AP scanning
-- Signal strength monitoring (excellent/good/fair/weak)
-- Security type detection (WPA3/WPA2/WPA/WEP/Open)
-- Channel congestion analysis
-- Network appearance/disappearance tracking
 
 ---
 
@@ -662,7 +633,6 @@ agent("""
 | Tool | Purpose | Key Actions |
 |------|---------|-------------|
 | **bluetooth** | BLE device monitoring & GATT | start, scan_once, list_devices, list_services, read_characteristic, subscribe |
-| **wifi** | WiFi network scanning | start, scan_once, get_current, get_channel_usage |
 | **chess** | Stockfish chess engine | new_game, get_best_move, make_move, analyze |
 | **clipboard** | Clipboard management | start, read, write, get_history, clear_history |
 | **cursor** | Mouse & keyboard control | move, click, drag, type_text, hotkey |
@@ -687,7 +657,6 @@ Several tools support **background monitoring mode**:
 | Tool | Monitors | Interval | Logs To |
 |------|----------|----------|---------|
 | **bluetooth** | BLE devices | 2-60s | `.bluetooth_monitor/devices.jsonl` |
-| **wifi** | WiFi networks | 5-60s | `.wifi_monitor/networks.jsonl` |
 | **clipboard** | Clipboard content | 0.5-5s | `.clipboard_monitor/clipboard.jsonl` |
 | **screen_reader** | Screen OCR | 1-10s | `.screen_monitor/elements.jsonl` |
 | **yolo_vision** | Camera objects | 1-10s | `.yolo_detections/detections.jsonl` |
@@ -731,7 +700,7 @@ agent("Create a template for a greeting card and render it with name='Alice'")
 
 **Tools that access hardware:**
 - `take_photo`, `yolo_vision`, `listen` - **Camera/microphone access**
-- `bluetooth`, `wifi` - **Network scanning**
+- `bluetooth` - **Network scanning**
 - `cursor`, `screen_reader` - **Screen access and control**
 
 **Best practices:**
@@ -749,11 +718,6 @@ agent("Create a template for a greeting card and render it with name='Alice'")
 - Ensure Bluetooth is enabled
 - Run with sudo on Linux: `sudo python agent.py`
 - Grant Bluetooth permissions on macOS
-
-### **WiFi scanning not working**
-- macOS only: Uses native `airport` command
-- Ensure WiFi adapter is enabled
-- May need location permissions on macOS
 
 ### **YOLO not detecting objects**
 - First run downloads YOLOv8 model (~6MB)
@@ -784,7 +748,6 @@ agent("Create a template for a greeting card and render it with name='Alice'")
 - **Chess:** `stockfish`, `rich`
 - **Vision:** `opencv-python`, `ultralytics`, `pytesseract`
 - **Bluetooth:** `bleak`
-- **WiFi:** `pywifi`
 - **Audio:** `openai-whisper`, `sounddevice`, `webrtcvad`
 - **Display:** `rich`, `halo`, `colorama`
 - **Templates:** `jinja2`

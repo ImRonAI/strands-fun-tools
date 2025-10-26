@@ -18,9 +18,8 @@ pillow
 # ultralytics
 # pytesseract
 
-# Bluetooth & WiFi
+# Bluetooth
 # bleak
-# pywifi
 
 # Audio
 # openai-whisper

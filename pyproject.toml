@@ -51,13 +51,11 @@ all = [
     "cryptography",
     "pytesseract",
     "bleak",
-    "pywifi",
     "prompt_toolkit",
 ]
 chess = ["stockfish", "rich"]
 vision = ["opencv-python", "ultralytics", "pytesseract", "pillow"]
 bluetooth = ["bleak"]
-wifi = ["pywifi"]
 audio = ["openai-whisper", "sounddevice", "webrtcvad"]
 display = ["rich", "halo", "colorama"]
 template = ["jinja2", "rich"]
@@ -122,7 +120,6 @@ module = [
     "cv2.*",
     "stockfish.*",
     "bleak.*",
-    "pywifi.*",
     "whisper.*",
     "ultralytics.*",
     "pyautogui.*",
