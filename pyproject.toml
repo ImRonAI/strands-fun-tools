@@ -31,15 +31,13 @@ classifiers = [
 
 dependencies = [
     "strands-agents",
-    "pyautogui",
-    "pyperclip",
-    "pillow",
 ]
 
 [project.optional-dependencies]
-# Note: 'audio' and 'vision' (ultralytics) excluded from 'all' due to Python 3.14 compatibility
-# (numba/openai-whisper require Python 3.10-3.13)
 all = [
+    "pyautogui",
+    "pyperclip",
+    "pillow",
     "stockfish",
     "rich",
     "opencv-python",
@@ -54,6 +52,8 @@ all = [
     "prompt_toolkit",
     "asciimatics",
 ]
+cursor = ["pyautogui"]
+clipboard = ["pyperclip"]
 chess = ["stockfish", "rich"]
 vision = ["opencv-python", "ultralytics", "pytesseract", "pillow"]
 bluetooth = ["bleak"]
@@ -63,6 +63,7 @@ template = ["jinja2", "rich"]
 utility = ["pyyaml", "cryptography"]
 face = ["opencv-python", "boto3"]
 dialog = ["prompt_toolkit"]
+ui = ["asciimatics"]
 dev = [
     "mypy>=1.8.0",
     "black>=24.0.0",
