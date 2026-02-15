@@ -236,61 +236,58 @@ def screen_reader(
             if not search_text:
                 return {
                     "status": "error",
-                    "content": [{"text": "❌ search_text required"}],
+                    "content": [{"text": "search_text required"}],
                 }
 
-            history = _monitor.get_history(limit=1)
-            if not history:
+            # Do a fresh capture instead of relying on history
+            elements = _monitor._capture_and_analyze()
+            if not elements:
                 return {
                     "status": "error",
-                    "content": [
-                        {"text": "⚠️ No screen data yet. Start monitoring first."}
-                    ],
+                    "matches": [],
+                    "content": [{"text": "No elements detected on screen"}],
                 }
 
-            elements = history[-1]["elements"]
             matches = [e for e in elements if search_text.lower() in e["text"].lower()]
 
             if not matches:
                 return {
                     "status": "success",
-                    "content": [
-                        {"text": f"❌ Text '{search_text}' not found on screen"}
-                    ],
+                    "found": False,
+                    "matches": [],
+                    "content": [{"text": f"Text '{search_text}' not found on screen"}],
                 }
 
-            text = f"🔍 **Found {len(matches)} matches for '{search_text}':**\n\n"
-            for match in matches[:5]:
-                text += f"- **'{match['text']}'** @ ({match['center'][0]}, {match['center'][1]}) - conf: {match['confidence']}%\n"
-
-            return {"status": "success", "content": [{"text": text}]}
+            # Return structured match data
+            return {
+                "status": "success",
+                "found": True,
+                "count": len(matches),
+                "matches": matches,  # Full match data with x, y, width, height, center
+                "first_match": matches[0],  # Convenience: first match for quick access
+                "click_x": matches[0]["center"][0],  # Direct click coordinates
+                "click_y": matches[0]["center"][1],
+                "content": [{"text": f"Found {len(matches)} matches. Click at ({matches[0]['center'][0]}, {matches[0]['center'][1]})"}],
+            }
 
         elif action == "list_elements":
-            history = _monitor.get_history(limit=1)
-            if not history:
+            # Do a fresh capture
+            elements = _monitor._capture_and_analyze()
+            if not elements:
                 return {
-                    "status": "error",
-                    "content": [
-                        {"text": "⚠️ No screen data yet. Start monitoring first."}
-                    ],
+                    "status": "success",
+                    "elements": [],
+                    "count": 0,
+                    "content": [{"text": "No elements detected on screen"}],
                 }
 
-            elements = history[-1]["elements"]
-
-            # Get unique texts
-            unique_texts = {}
-            for e in elements:
-                text = e["text"]
-                if text not in unique_texts:
-                    unique_texts[text] = {"count": 0, "positions": []}
-                unique_texts[text]["count"] += 1
-                unique_texts[text]["positions"].append(e["center"])
-
-            text = f"📋 **Current Screen Elements ({len(unique_texts)} unique):**\n\n"
-            for txt, data in list(unique_texts.items())[:20]:  # Show top 20
-                text += f"- **'{txt}'** ({data['count']}x) @ {data['positions'][0]}\n"
-
-            return {"status": "success", "content": [{"text": text}]}
+            # Return full structured data
+            return {
+                "status": "success",
+                "count": len(elements),
+                "elements": elements,  # Full list with all bounding box data
+                "content": [{"text": f"Found {len(elements)} elements. Use 'elements' array for coordinates."}],
+            }
 
         elif action == "capture_once":
             elements = _monitor._capture_and_analyze()
@@ -298,14 +295,18 @@ def screen_reader(
             if not elements:
                 return {
                     "status": "success",
-                    "content": [{"text": "⚠️ No text detected on screen"}],
+                    "elements": [],
+                    "count": 0,
+                    "content": [{"text": "No text detected on screen"}],
                 }
 
-            text = f"📸 **Screen Capture - {len(elements)} elements found:**\n\n"
-            for elem in elements[:15]:  # Show top 15
-                text += f"- **'{elem['text']}'** @ ({elem['center'][0]}, {elem['center'][1]}) - {elem['confidence']}%\n"
-
-            return {"status": "success", "content": [{"text": text}]}
+            # Return structured data for programmatic use
+            return {
+                "status": "success",
+                "count": len(elements),
+                "elements": elements,  # Full list with x, y, width, height, center, text, confidence
+                "content": [{"text": f"Captured {len(elements)} elements. Use 'elements' array for coordinates."}],
+            }
 
         elif action == "clear_history":
             result = _monitor.clear_history()

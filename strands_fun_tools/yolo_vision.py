@@ -126,26 +126,40 @@ def yolo_vision(
     save_dir: str = "./.yolo_detections",
     interval: float = 1.0,
     limit: int = 50,
+    image_path: Optional[str] = None,
 ) -> Dict[str, Any]:
-    """Background YOLO object detection with continuous monitoring
+    """YOLO object detection for screen analysis and UI element detection.
 
     Args:
         action: Action to perform
-            - "start": Begin background detection
+            - "analyze_screen": Capture screen and detect objects with bounding boxes (RECOMMENDED)
+            - "analyze_image": Analyze a local image file
+            - "start": Begin background camera detection
             - "stop": Stop background detection
             - "status": Check if running
             - "get_detections": Recent detection entries
             - "list_objects": All unique objects seen with counts
             - "clear": Clear detection history
         model: YOLO model to use (yolov8n.pt, yolov8s.pt, yolov8m.pt, etc.)
-        camera_id: Camera device ID
+        camera_id: Camera device ID (for background detection)
         confidence: Minimum confidence threshold (0.0-1.0)
         save_dir: Directory to save detection logs
         interval: Seconds between detections
         limit: Max number of recent detections to return
+        image_path: Path to image file for 'analyze_image' action
 
     Returns:
-        Dict with status and content
+        Dict with:
+        - status: "success" or "error"
+        - count: Number of detected objects
+        - elements: List of detected objects with bounding boxes:
+            - object: Class name (e.g., "person", "button", "text")
+            - confidence: Detection confidence (0-1)
+            - bbox: [x1, y1, x2, y2] bounding box coordinates
+            - x, y: Top-left corner
+            - width, height: Element dimensions
+            - center: (x, y) tuple for clicking
+            - click_x, click_y: Direct click coordinates
     """
     global _detection_thread, _detection_active, _detections_history, _object_counts
 
@@ -296,6 +310,152 @@ def yolo_vision(
                 "content": [{"text": "✅ Detection history cleared"}],
             }
 
+        elif action == "analyze_screen":
+            # Capture screen and run YOLO detection
+            try:
+                from ultralytics import YOLO
+            except ImportError:
+                return {
+                    "status": "error",
+                    "content": [{"text": "ultralytics not installed. Run: pip install ultralytics"}],
+                }
+
+            try:
+                from PIL import ImageGrab
+                import numpy as np
+            except ImportError:
+                return {
+                    "status": "error",
+                    "content": [{"text": "PIL not installed. Run: pip install pillow"}],
+                }
+
+            try:
+                # Capture the screen
+                screenshot = ImageGrab.grab()
+                frame = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+
+                # Load model and run inference
+                yolo = YOLO(model)
+                results = yolo(frame, conf=confidence, verbose=False)
+
+                # Process results with full bounding box data
+                detected_objects = []
+                for result in results:
+                    for box in result.boxes:
+                        class_id = int(box.cls[0])
+                        conf_score = float(box.conf[0])
+                        class_name = yolo.names[class_id]
+                        bbox = box.xyxy[0].tolist()  # [x1, y1, x2, y2]
+
+                        # Calculate center and dimensions
+                        x1, y1, x2, y2 = bbox
+                        center_x = int((x1 + x2) / 2)
+                        center_y = int((y1 + y2) / 2)
+                        width = int(x2 - x1)
+                        height = int(y2 - y1)
+
+                        detected_objects.append({
+                            "object": class_name,
+                            "confidence": round(conf_score, 3),
+                            "bbox": [int(x1), int(y1), int(x2), int(y2)],
+                            "x": int(x1),
+                            "y": int(y1),
+                            "width": width,
+                            "height": height,
+                            "center": (center_x, center_y),
+                            "click_x": center_x,
+                            "click_y": center_y,
+                        })
+
+                if not detected_objects:
+                    return {
+                        "status": "success",
+                        "count": 0,
+                        "elements": [],
+                        "content": [{"text": "No objects detected on screen"}],
+                    }
+
+                # Return structured data for programmatic use
+                return {
+                    "status": "success",
+                    "count": len(detected_objects),
+                    "elements": detected_objects,
+                    "content": [{"text": f"Detected {len(detected_objects)} objects. Use 'elements' for coordinates."}],
+                }
+
+            except Exception as e:
+                return {
+                    "status": "error",
+                    "content": [{"text": f"Error capturing/analyzing screen: {str(e)}"}],
+                }
+
+        elif action == "analyze_image":
+            if not image_path:
+                return {
+                    "status": "error",
+                    "content": [{"text": "image_path argument is required for analyze_image"}],
+                }
+
+            try:
+                from ultralytics import YOLO
+            except ImportError:
+                return {
+                    "status": "error",
+                    "content": [{"text": "ultralytics not installed. Run: pip install ultralytics"}],
+                }
+
+            try:
+                # Load model and run inference
+                yolo = YOLO(model)
+                results = yolo(image_path, conf=confidence, verbose=False)
+
+                # Process results with full bounding box data
+                detected_objects = []
+                for result in results:
+                    for box in result.boxes:
+                        class_id = int(box.cls[0])
+                        conf_score = float(box.conf[0])
+                        class_name = yolo.names[class_id]
+                        bbox = box.xyxy[0].tolist()
+
+                        x1, y1, x2, y2 = bbox
+                        center_x = int((x1 + x2) / 2)
+                        center_y = int((y1 + y2) / 2)
+
+                        detected_objects.append({
+                            "object": class_name,
+                            "confidence": round(conf_score, 3),
+                            "bbox": [int(x1), int(y1), int(x2), int(y2)],
+                            "x": int(x1),
+                            "y": int(y1),
+                            "width": int(x2 - x1),
+                            "height": int(y2 - y1),
+                            "center": (center_x, center_y),
+                            "click_x": center_x,
+                            "click_y": center_y,
+                        })
+
+                if not detected_objects:
+                    return {
+                        "status": "success",
+                        "count": 0,
+                        "elements": [],
+                        "content": [{"text": f"No objects detected in {image_path}"}],
+                    }
+
+                return {
+                    "status": "success",
+                    "count": len(detected_objects),
+                    "elements": detected_objects,
+                    "content": [{"text": f"Detected {len(detected_objects)} objects. Use 'elements' for coordinates."}],
+                }
+
+            except Exception as e:
+                return {
+                    "status": "error",
+                    "content": [{"text": f"Error processing image: {str(e)}"}],
+                }
+        
         else:
             return {
                 "status": "error",
