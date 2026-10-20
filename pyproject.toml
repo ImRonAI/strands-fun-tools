@@ -31,6 +31,7 @@ classifiers = [
 
 dependencies = [
     "strands-agents",
+    "strands-mcp-server",
 ]
 
 [project.optional-dependencies]
@@ -71,6 +72,9 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
 ]
+
+[project.scripts]
+strands-fun-tools = "strands_fun_tools.mcp:main"
 
 [project.urls]
 Homepage = "https://github.com/cagataycali/strands-fun-tools"
